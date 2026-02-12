@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import './App.css';
 import { 
   HashRouter, 
@@ -8,7 +9,10 @@ import {
 } from 'react-router-dom';
 
 const Todo = () => {
-  return <p>這是 Todo 頁面</p>;
+  return <Fragment>
+    <p>這是 Todo 頁面</p>
+    <LogOut />
+  </Fragment>
 };
 const Login = () => {
   return <p>這是登入頁面</p>;
@@ -18,6 +22,11 @@ const Register = () => {
 };
 const Home = () => {
   return <p>這是首頁</p>;
+}
+
+const LogOut = () => {
+  const navigate = useNavigate();
+  return <button onClick={() => {navigate('/login')}}>登出</button>
 }
 
 
