@@ -1,11 +1,13 @@
 import { Fragment } from 'react';
 import './App.css';
-import { 
-  HashRouter, 
+import {
+  HashRouter,
   NavLink,
   Routes,
   Route,
-  useNavigate, 
+  Outlet,
+  useNavigate,
+  useParams,
 } from 'react-router-dom';
 
 const Todo = () => {
@@ -24,11 +26,29 @@ const Home = () => {
   return <p>這是首頁</p>;
 }
 
-const LogOut = () => {
-  const navigate = useNavigate();
-  return <button onClick={() => {navigate('/login')}}>登出</button>
+const Post = () => {
+  const navigate = useNavigate(); 
+  return (
+    <div>
+      <h3>Post 頁面
+             <button type='button' onClick={() => navigate("/post/123")}>
+          前往 Post ID: 123 詳細頁面
+        </button>{" "}  
+      </h3>
+      <Outlet />
+    </div>
+  ); 
 }
 
+const PostId = () => {
+  const { postId } = useParams();
+  return <p>Post ID: {postId}</p>;
+};
+
+const LogOut = () => {
+  const navigate = useNavigate();
+  return <button onClick={() => { navigate('/login') }}>登出</button>
+}
 
 function App() {
   return (
@@ -47,6 +67,12 @@ function App() {
           <NavLink to="/todo">
             <p>Todo 頁面</p>
           </NavLink>
+          <NavLink to='/post'>
+            <p>Post 頁面</p>
+          </NavLink>
+          {/* <NavLink to="/post/post123">
+          <p>Post 詳細頁面</p>
+          </NavLink>           */}
         </div>
         {/* Routes, Route 練習區 */}
         <Routes>
@@ -54,8 +80,9 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/todo" element={<Todo />}></Route>
-          {/* <Route path="/post" element={<Post />}>
-          </Route> */}
+          <Route path="/post" element={<Post />}>
+            <Route path=':postId' element={<PostId />} />
+          </Route>
         </Routes>
         {/* 練習區 */}
       </HashRouter>
